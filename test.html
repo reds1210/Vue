@@ -29,21 +29,52 @@
                     <div class="col-md-6 col-lg-4">
                         <form class="card">
                             <h5 class="card-title fw-400">Sign Up</h5>
-
                             <div class="card-body">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Email">
+                                    <label>Email</label>
+                                    <input class="form-control" type="text" v-model="form.email">
                                 </div>
-
                                 <div class="form-group">
-                                    <input class="form-control" type="password" placeholder="Password">
+                                    <label>password</label>
+                                    <input class="form-control" type="password" v-model="form.password">
                                 </div>
-
                                 <div class="form-group">
-                                    <input class="form-control" type="password" placeholder="Confirm Password">
+                                    <label>DateTime</label>
+                                    <input class="form-control" type="datetime-local" v-model="form.dateTime">
                                 </div>
-
-
+                                <div class="form-group">
+                                    <h2>你從哪裡得知Tibame微軟班</h2>
+                                    <div class="form-check" v-for="item in allHowToKnow">
+                                        <input class="form-check-input" type="checkbox" :value="item.id"
+                                            v-model="form.selectedHowToKnow" :id="item.id">
+                                        <label class="form-check-label" :for="item.id">{{item.text}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck" value="老師生氣"
+                                            v-model="form.chk">
+                                        <label class="form-check-label" for="SwitchCheck">老師生氣</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck1" value="學生閉嘴"
+                                            v-model="form.chk" checked>
+                                        <label class="form-check-label" for="SwitchCheck1">學生閉嘴</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck2"
+                                        value="老師睡覺"  v-model="form.chk" disabled>
+                                        <label class="form-check-label" for="SwitchCheck2">老師睡覺</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck3"
+                                        value="老師開放斗內" v-model="form.chk" checked disabled>
+                                        <label class="form-check-label" for="SwitchCheck3">老師開放斗內</label>
+                                    </div>
+                                </div>
                                 <button class="btn btn-block btn-bold btn-primary">Sign Up</button>
                             </div>
                         </form>
@@ -58,6 +89,14 @@
     createApp({
         data() {
             return {
+                form: {
+                    email: "",
+                    password: "",
+                    dateTime: "",
+                    selectedHowToKnow: [],
+                    chk: [],
+                },
+                allHowToKnow: [],
                 name: "reds",
                 chg: true,
                 box: {
@@ -77,6 +116,9 @@
             inp(e) {
                 this.name = e.target.value;
             }
+        },
+        mounted() {
+            fetch("https://localhost:7217/api/HowToKnow").then(res => res.json()).then(res => this.allHowToKnow = res)
         }
     }).mount('#app');
 </script>
