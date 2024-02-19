@@ -10,6 +10,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js'
+        integrity='sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=='
+        crossorigin='anonymous'></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="importmap">
         {
             "imports": {
@@ -51,7 +56,34 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    
+                                    <h3>假別</h3>
+                                    <select class="form-select" id="dayOfCategory"></select>
+                                </div>
+                                <div class="form-group">
+                                    <h2>性別</h2>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    id="男生" value="1" v-model="form.radio">
+                                                <label class="form-check-label" for="男生">男生</label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    id="女生" value="2" v-model="form.radio">
+                                                <label class="form-check-label" for="女生">女生</label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                                    id="畜生" value="3" v-model="form.radio">
+                                                <label class="form-check-label" for="畜生">畜生</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check form-switch">
@@ -65,14 +97,20 @@
                                         <label class="form-check-label" for="SwitchCheck1">學生閉嘴</label>
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="SwitchCheck2"
-                                        value="老師睡覺"  v-model="form.chk" disabled>
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck2" value="老師睡覺"
+                                            v-model="form.chk" disabled>
                                         <label class="form-check-label" for="SwitchCheck2">老師睡覺</label>
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="SwitchCheck3"
-                                        value="老師開放斗內" v-model="form.chk" checked disabled>
+                                        <input class="form-check-input" type="checkbox" id="SwitchCheck3" value="老師開放斗內"
+                                            v-model="form.chk" checked disabled>
                                         <label class="form-check-label" for="SwitchCheck3">老師開放斗內</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-control">
+                                        <textarea name="" id="" cols="30" rows="10" v-model="form.msg">
+                                        </textarea>
                                     </div>
                                 </div>
                                 <button class="btn btn-block btn-bold btn-primary">Sign Up</button>
@@ -84,6 +122,9 @@
         </div>
     </div>
 </body>
+<script>
+    var aaaa;
+</script>
 <script type="module">
     import { createApp } from 'vue'
     createApp({
@@ -95,7 +136,22 @@
                     dateTime: "",
                     selectedHowToKnow: [],
                     chk: [],
+                    radio: "",
+                    selectedDay: "",
+                    msg: `sedfsdfsdsdfsd
+                    fsdgsdf
+                    ghdfbdf
+                    ghrfghjfg
+                    `
                 },
+                dayOfCategory: [
+                    { id: 0, text: "請選擇" },
+                    { id: 1, text: "事假" },
+                    { id: 2, text: "病假" },
+                    { id: 3, text: "特休" },
+                    { id: 4, text: "喪假" },
+                    { id: 5, text: "生理假" },
+                ],
                 allHowToKnow: [],
                 name: "reds",
                 chg: true,
@@ -117,10 +173,20 @@
                 this.name = e.target.value;
             }
         },
+        watch:{
+           'form.selectedDay'(newval,oldval){
+            console.log(newval);
+            $("#dayOfCategory").select2().val(newval).trigger("change");
+           }
+        },
         mounted() {
-            fetch("https://localhost:7217/api/HowToKnow").then(res => res.json()).then(res => this.allHowToKnow = res)
+            fetch("https://localhost:7217/api/HowToKnow").then(res => res.json()).then(res => this.allHowToKnow = res);
+            let self = this;
+            $("#dayOfCategory").select2({data:this.dayOfCategory}).on("change",function(){
+                self.form.selectedDay = this.value;
+            })
         }
-    }).mount('#app');
+    }).mount("#app");
 </script>
 
 </html>
