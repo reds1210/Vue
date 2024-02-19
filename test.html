@@ -13,8 +13,8 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js'
         integrity='sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=='
         crossorigin='anonymous'></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/plugin/HoldOn.min.js"></script>
+    <link rel="stylesheet" href="/plugin/HoldOn.min.css">
     <script type="importmap">
         {
             "imports": {
@@ -57,7 +57,9 @@
                                 </div>
                                 <div class="form-group">
                                     <h3>假別</h3>
-                                    <select class="form-select" id="dayOfCategory"></select>
+                                    <select class="form-select" v-model="form.selectedDay">
+                                        <option v-for="item in dayOfCategory" :value="item.id">{{item.text}}</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <h2>性別</h2>
@@ -137,7 +139,7 @@
                     selectedHowToKnow: [],
                     chk: [],
                     radio: "",
-                    selectedDay: "",
+                    selectedDay: "1",
                     msg: `sedfsdfsdsdfsd
                     fsdgsdf
                     ghdfbdf
@@ -173,18 +175,9 @@
                 this.name = e.target.value;
             }
         },
-        watch:{
-           'form.selectedDay'(newval,oldval){
-            console.log(newval);
-            $("#dayOfCategory").select2().val(newval).trigger("change");
-           }
-        },
         mounted() {
             fetch("https://localhost:7217/api/HowToKnow").then(res => res.json()).then(res => this.allHowToKnow = res);
             let self = this;
-            $("#dayOfCategory").select2({data:this.dayOfCategory}).on("change",function(){
-                self.form.selectedDay = this.value;
-            })
         }
     }).mount("#app");
 </script>
