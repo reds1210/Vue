@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
+
+<script>
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        
+        console.log(
+            'You are ',
+            geolib.getDistance({
+                latitude: 25.041398069720277,
+                longitude: 121.55051215701963,
+            }, {
+                latitude: 25.041628613955517,
+                longitude: 121.54378108337532,
+            }),
+            'meters away from 51.525, 7.4575'
+        );
+    },
+    () => {
+        alert('Position could not be determined.');
+    }
+);
+</script>
+</html>
