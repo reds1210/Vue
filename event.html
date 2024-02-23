@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .d1 {
+            width: 300px;
+            height: 300px;
+            background-color: red;
+        }
+
+        .d2 {
+            width: 200px;
+            height: 200px;
+            background-color: yellow;
+        }
+
+        .d3 {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <a id="link" href="https://www.google.com">?!?!?!?!?!?!??1</a>
+    <div class="d1">
+        <div class="d2">
+            <div class="d3"></div>
+        </div>
+    </div>
+</body>
+<script>
+    var link = document.querySelector("#link");
+    var d1 = document.querySelector(".d1");
+    var d2 = document.querySelector(".d2");
+    var d3 = document.querySelector(".d3");
+
+    link.addEventListener("click", function (e) {
+        e.preventDefault();        
+    })
+    d1.addEventListener("click", function (e) {
+        console.log("d1-冒泡");        
+    })
+    d2.addEventListener("click", function (e) {
+        console.log("d2-冒泡");
+    })
+    d3.addEventListener("click", function (e) {
+        console.log("d3-冒泡");
+    })
+
+    d1.addEventListener("click", function (e) {
+        e.stopPropagation();
+        console.log("d1-捕獲");
+    },true)
+    d2.addEventListener("click", function (e) {
+        console.log("d2-捕獲");
+    },true)
+    d3.addEventListener("click", function (e) {
+        console.log("d3-捕獲");
+    },true)
+
+</script>
+
+</html>
