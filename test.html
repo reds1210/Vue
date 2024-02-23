@@ -36,12 +36,25 @@
                             <h5 class="card-title fw-400">Sign Up</h5>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="form-control" type="text" v-model="form.email">
+                                    <label>Email</label>API發送次數:{{apiTime}}
+                                    <input class="form-control" :class="validation.email" type="text"
+                                        v-model.lazy="form.email">
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please choose a username.
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>password</label>
-                                    <input class="form-control" type="password" v-model="form.password">
+                                    <input class="form-control" :class="pwdIsvalid ? 'is-valid':'is-invalid'" type="password" v-model="form.password">
+                                    <div class="valid-feedback">
+                                        密碼OK!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        你的密碼跟你的人一樣有夠隨便?!
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>DateTime</label>
@@ -115,8 +128,7 @@
                                         </textarea>
                                     </div>
                                 </div>
-                                <button class="btn btn-block btn-bold btn-primary" type="button" @click="send">Sign
-                                    Up</button>
+                                <button class="btn btn-block btn-bold btn-primary" type="button" @click="send">{{arrCount}}</button>
                             </div>
                         </form>
                     </div>
@@ -133,6 +145,15 @@
     createApp({
         data() {
             return {
+                validation: {
+                    email: ""
+                },
+                obj: {
+                    a: 1,
+                    b: 2,
+                    c: 3
+                },
+                arr: [1, 2, 3, 4],                
                 form: {
                     email: "",
                     password: "",
@@ -147,6 +168,7 @@
                     ghrfghjfg
                     `
                 },
+                apiTime:0,
                 dayOfCategory: [
                     { id: 0, text: "請選擇" },
                     { id: 1, text: "事假" },
@@ -171,6 +193,36 @@
                 }
             }
         },
+        computed:{
+            arrCount(){
+                return this.arr.length;
+            },
+            pwdIsvalid(){
+                var rex = new RegExp(/password|abc0830|hahaha0908/g);
+                var result = rex.test(this.form.password);
+                return !result;
+            }
+
+        },
+        watch: {
+            "form.email": {
+                handler(newVal, oldVal) {
+                    this.apiTime++;
+                    var exist = ["reds1210@gmail.com", "esther0908@gmail.com"];
+                    this.validation.email = exist.includes(newVal) ? "is-invalid" : "is-valid";
+                },
+                immediate:false
+            },
+            arr(n) {
+                console.log(n);
+            },
+            "obj": {
+                deep: true,
+                handler(n) {
+                    console.log(n);
+                }
+            }
+        },
         methods: {
             inp(e) {
                 this.name = e.target.value;
@@ -181,15 +233,14 @@
                     message: "處理中..."
                 });
                 //ajax
-                fetch("https://localhost:7217/api/add").then(res=> res.json())
-                .then(res=>{
-                    if(res.status==true)
-                    {
-                        alert("新增成功");
-                    }else{
-                        alert("新增失敗");
-                    }
-                }).finally(()=>HoldOn.close())
+                fetch("https://localhost:7217/api/add").then(res => res.json())
+                    .then(res => {
+                        if (res.status == true) {
+                            alert("新增成功");
+                        } else {
+                            alert("新增失敗");
+                        }
+                    }).finally(() => HoldOn.close())
             }
         },
         mounted() {
