@@ -73,15 +73,31 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
+                                <div class="row gx-1">
+                                    <div class="col-4">
+                                        <div>
+                                            <label class="form-label">建立時間</label>
+                                            <div class="row gx-0">
+                                                <div class="col-6">
+                                                    {{search.startDate}}
+                                                    <input type="date" v-model="search.startDate">
+                                                </div>
+                                                <div class="col-6">
+                                                    {{search.endDate}}
+                                                    <input type="date" v-model="search.endDate">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
                                         <div>
                                             <label for="inputName" class="form-label">名稱</label>
                                             <input type="text" class="form-control" id="inputName"
                                                 v-model="search.name">
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-3">
                                         <div>
                                             <label class="form-label">價格 range</label>
                                             <div class="row">
@@ -98,7 +114,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-3">
                                         <div>
                                             <label for="inputDesc" class="form-label">敘述</label>
                                             <input type="text" class="form-control" id="inputDesc"
@@ -118,15 +134,17 @@
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">建立時間</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(prod,idx) in filterProductsByPrice">
+                                <tr v-for="(prod,idx) in filterProductsByDate">
                                     <th scope="row">{{++idx}}</th>
                                     <td><img class="w-100 h-100" :src="prod.imageUrl"></td>
                                     <td>{{prod.name}}</td>
                                     <td>{{prod.price}}</td>
                                     <td>{{prod.description}}</td>
+                                    <td>{{prod.createDate}}</td>                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -155,18 +173,20 @@
                     description: "",
                     maxPrice: 0,
                     minPrice: 0,
+                    startDate:"",
+                    endDate:""
                 },
                 products: [
-                    { id: "1", name: "超級筆記本", description: "高效能的筆記本，適合所有種類的專業工作。", price: 999, imageUrl: "https://picsum.photos/id/684/35/35" },
-                    { id: "2", name: "智慧手錶", description: "具備先進健康追蹤功能的智慧手錶。", price: 299, imageUrl: "https://picsum.photos/id/694/35/35" },
-                    { id: "3", name: "無線耳機", description: "提供高質感音質體驗的無線耳機，長時間佩戴也舒適。", price: 199, imageUrl: "https://picsum.photos/id/683/35/35" },
-                    { id: "4", name: "智慧型手機", description: "具備最新技術的智慧型手機，拍照更清晰，速度更快。", price: 999, imageUrl: "https://picsum.photos/id/284/35/35" },
-                    { id: "5", name: "平板電腦", description: "輕巧便攜的平板電腦，適合閱讀和娛樂。", price: 599, imageUrl: "https://picsum.photos/id/687/35/35" },
-                    { id: "6", name: "遊戲主機", description: "提供頂級遊戲體驗的遊戲主機，支持多人在線遊戲。", price: 399, imageUrl: "https://picsum.photos/id/654/35/35" },
-                    { id: "7", name: "智慧燈泡", description: "可通過智慧手機控制的智慧燈泡，支持調節亮度和顏色。", price: 49, imageUrl: "https://picsum.photos/id/384/35/35" },
-                    { id: "8", name: "機器人吸塵器", description: "自動清潔的機器人吸塵器，省時省力。", price: 299, imageUrl: "https://picsum.photos/id/184/35/35" },
-                    { id: "9", name: "智慧鍋", description: "智能控制烹飪時間和溫度的智慧鍋，讓烹飪更簡單。", price: 199, imageUrl: "https://picsum.photos/id/234/35/35" },
-                    { id: "10", name: "電動滑板車", description: "環保節能的電動滑板車，適合城市短途出行。", price: 499, imageUrl: "https://picsum.photos/id/64/35/35" }
+                    { id: "1", createDate:"2024-01-05", name: "超級筆記本", description: "高效能的筆記本，適合所有種類的專業工作。", price: 999, imageUrl: "https://picsum.photos/id/684/35/35" },
+                    { id: "2", createDate:"2024-01-06", name: "智慧手錶", description: "具備先進健康追蹤功能的智慧手錶。", price: 299, imageUrl: "https://picsum.photos/id/694/35/35" },
+                    { id: "3", createDate:"2024-01-07", name: "無線耳機", description: "提供高質感音質體驗的無線耳機，長時間佩戴也舒適。", price: 199, imageUrl: "https://picsum.photos/id/683/35/35" },
+                    { id: "4", createDate:"2024-01-08", name: "智慧型手機", description: "具備最新技術的智慧型手機，拍照更清晰，速度更快。", price: 999, imageUrl: "https://picsum.photos/id/284/35/35" },
+                    { id: "5", createDate:"2024-01-09", name: "平板電腦", description: "輕巧便攜的平板電腦，適合閱讀和娛樂。", price: 599, imageUrl: "https://picsum.photos/id/687/35/35" },
+                    { id: "6", createDate:"2024-01-10", name: "遊戲主機", description: "提供頂級遊戲體驗的遊戲主機，支持多人在線遊戲。", price: 399, imageUrl: "https://picsum.photos/id/654/35/35" },
+                    { id: "7", createDate:"2024-01-11", name: "智慧燈泡", description: "可通過智慧手機控制的智慧燈泡，支持調節亮度和顏色。", price: 49, imageUrl: "https://picsum.photos/id/384/35/35" },
+                    { id: "8", createDate:"2024-01-12", name: "機器人吸塵器", description: "自動清潔的機器人吸塵器，省時省力。", price: 299, imageUrl: "https://picsum.photos/id/184/35/35" },
+                    { id: "9", createDate:"2024-01-13", name: "智慧鍋", description: "智能控制烹飪時間和溫度的智慧鍋，讓烹飪更簡單。", price: 199, imageUrl: "https://picsum.photos/id/234/35/35" },
+                    { id: "10", createDate:"2024-01-14", name: "電動滑板車", description: "環保節能的電動滑板車，適合城市短途出行。", price: 499, imageUrl: "https://picsum.photos/id/64/35/35" }
                 ]
             }
         },
@@ -186,6 +206,16 @@
                 }
                 if (this.search.minPrice > 0) {
                     data = data.filter(x=>x.price >= this.search.minPrice)
+                }
+                return data
+            },
+            filterProductsByDate(){
+                var data = this.filterProductsByPrice;
+                if (this.search.startDate) {
+                    data = data.filter(x=>new Date(x.createDate) >= new Date(this.search.startDate))
+                }
+                if (this.search.endDate) {
+                    data = data.filter(x=>new Date(x.createDate) <= new Date(this.search.endDate))
                 }
                 return data
             },
