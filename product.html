@@ -190,10 +190,12 @@
                 </div>
             </div>
         </section>
-        <section v-else-if="currentPage ==2" class="mt-5 mb-5">第二個頁籤</section>
+        <section v-else-if="currentPage ==2" class="mt-5 mb-5">第二個頁籤
+            <customer-Button>請按我</customer-Button>
+        </section>
         <section v-else-if="currentPage ==3" class="mt-5 mb-5">第三個頁籤</section>
         <section v-else-if="currentPage ==4" class="mt-5 mb-5">第四個頁籤</section>
-
+       
         <!-- <paginate
   :page-count="20"
   :prev-text="'Prev'"
@@ -237,8 +239,10 @@
 
 
 <script>
-
-    myCompnent = {
+    let customerButton={
+        template:`<button><slot/></button>`
+    }
+    let myCompnent = {
         data() {
             return {
                 count: 0
@@ -252,7 +256,7 @@
         template: `<button type="button" @click="add">{{count}}</button>`
     }
 
-    myLinkCompnent = {
+    let myLinkCompnent = {
         props: ["text", "link"],
         template: `<a :href="link">{{text}}</a>`
     }
@@ -345,7 +349,8 @@
             paginate: VuejsPaginateNext,
             myCompnent,
             myLinkCompnent,
-            myProductCompnent
+            myProductCompnent,
+            customerButton
         },
         methods: {
             godKnows(id,name){
