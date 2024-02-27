@@ -32,7 +32,7 @@
             <div class="padding">
                 <div class="row container d-flex justify-content-center">
                     <div class="col-md-6 col-lg-4">
-                        <form class="card">
+                        <form class="card">                          
                             <h5 class="card-title fw-400">Sign Up</h5>
                             <div class="card-body">
                                 <a href="https://www.google.com" @click.prevent="goback">hi~~~~</a>
@@ -185,6 +185,7 @@
                 ],
                 allHowToKnow: [],
                 name: "reds",
+                lastName:"Wang",
                 chg: true,
                 box: {
                     "width": "100px",
@@ -200,6 +201,10 @@
             }
         },
         computed:{
+            fullName(){
+                console.log("fullName");
+                return this.name+this.lastName;
+            },
             arrCount(){
                 return this.arr.length;
             },
@@ -229,6 +234,10 @@
             }
         },
         methods: {
+            showFullName(){
+                console.log("showFullName");
+                return this.name+this.lastName;
+            },
             done(e){
                 console.log(e);
             },

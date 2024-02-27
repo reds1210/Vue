@@ -86,6 +86,8 @@
         </ul>
         <section v-if="currentPage==1" class="mt-5 mb-5">
             <div class="container-fluid">
+                <my-Link-Compnent v-for="item in allLink" :link="item.link" :text="item.name"></my-Link-Compnent><br>
+                <my-compnent></my-compnent>
                 <button class="btn btn-light btn-outline-info" @click="changeSwitch">進階搜尋</button>
                 <div class="row">
                     <div class="col-12">
@@ -239,10 +241,37 @@
         </footer>
     </div>
 </body>
+
 <script>
+    myCompnent = {
+        data() {
+            return {
+                count: 0
+            }
+        },
+        methods: {
+            add() {
+                this.count++;
+            }
+        },
+        template: `<button type="button" @click="add">{{count}}</button>`
+    }
+
+    myLinkCompnent={
+        props:["text","link"],        
+        template:`<a :href="link">{{text}}</a>`
+    }
+
     let hello = Vue.createApp({
         data() {
             return {
+                allLink:[
+                    {link:"https:www.google.com",name:"連結一"},
+                    {link:"https:www.bing.com",name:"連結二"},
+                    {link:"https:www.yahoo.com",name:"連結三"},
+                    {link:"https:www.momo.com",name:"連結四"},
+                    {link:"https:www.tibame.com",name:"連結五"},
+                ],
                 currentPage: 1,
                 isSwitch: true,
                 search: {
@@ -319,6 +348,8 @@
         },
         components: {
             paginate: VuejsPaginateNext,
+            myCompnent,
+            myLinkCompnent
         },
         methods: {
             switchPage(page) {
@@ -350,7 +381,7 @@
             console.log("beforeMount", this.currentPage);
         },
         mounted() {
-            fetch("https://localhost:7217/api/Mock").then(res => res.json()).then(result =>{
+            fetch("https://localhost:7217/api/Mock").then(res => res.json()).then(result => {
                 HoldOn.close();
                 this.products = result
             })
