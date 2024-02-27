@@ -172,9 +172,8 @@
                             </thead>
                             <tbody>
                                 <template v-if="isSwitch">
-                                    <my-Product-Compnent v-for="(prod,idx) in filterProductsByDate" :id="prod.id"
-                                        :name="prod.name" :image-Url="prod.imageUrl" :price="prod.price"
-                                        :description="prod.description" :create-Date="prod.createDate"
+                                    <my-Product-Compnent v-for="(prod,idx) in filterProductsByDate"
+                                        v-bind="prod"
                                         @bad-Emoji="godKnows">
                                     </my-Product-Compnent>
                                 </template>
