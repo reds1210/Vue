@@ -172,46 +172,17 @@
                             </thead>
                             <tbody>
                                 <template v-if="isSwitch">
-                                    <tr v-for="(prod,idx) in filterProductsByDate">
-                                        <th scope="row">{{++idx}}</th>
-                                        <td><img class="w-100 h-100" :src="prod.imageUrl"></td>
-                                        <td>{{prod.name}}</td>
-                                        <td>{{prod.price}}</td>
-                                        <td>{{prod.description}}</td>
-                                        <td>{{prod.createDate}}</td>
-                                        <td>
-                                            <div class="row gx-1">
-                                                <div class="col">
-                                                    <button class="btn btn-primary">編輯</button>
-                                                </div>
-                                                <div class="col">
-                                                    <button class="btn btn-danger"
-                                                        @click="deleteProduct(prod,$event)">刪除</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <my-Product-Compnent v-for="(prod,idx) in filterProductsByDate" :id="prod.id"
+                                        :name="prod.name" :image-Url="prod.imageUrl" :price="prod.price"
+                                        :description="prod.description" :create-Date="prod.createDate"
+                                        @bad-Emoji="godKnows">
+                                    </my-Product-Compnent>
                                 </template>
                                 <template v-else>
-                                    <tr v-for="(prod,idx) in filterAllText">
-                                        <th scope="row">{{++idx}}</th>
-                                        <td><img class="w-100 h-100" :src="prod.imageUrl"></td>
-                                        <td>{{prod.name}}</td>
-                                        <td>{{prod.price}}</td>
-                                        <td>{{prod.description}}</td>
-                                        <td>{{prod.createDate}}</td>
-                                        <td>
-                                            <div class="row gx-1">
-                                                <div class="col">
-                                                    <button class="btn btn-primary">編輯</button>
-                                                </div>
-                                                <div class="col">
-                                                    <button class="btn btn-danger"
-                                                        @click="deleteProduct(prod,$event)">刪除</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <my-Product-Compnent v-for="(prod,idx) in filterAllText" :id="prod.id"
+                                        :name="prod.name" :image-Url="prod.imageUrl" :price="prod.price"
+                                        :description="prod.description" :create-Date="prod.createDate">
+                                    </my-Product-Compnent>
                                 </template>
                             </tbody>
                         </table>
@@ -242,7 +213,31 @@
     </div>
 </body>
 
+<!-- <script type="text/x-template" id="prductTemplate">
+    <tr>
+        <th scope="row">{{ id }}</th>
+        <td><img class="w-100 h-100" :src="imageUrl"></td>
+        <td>{{ name }}</td>
+        <td>{{ price }}</td>
+        <td>{{ description }}</td>
+        <td>{{ createDate }}</td>
+        <td>
+            <div class="row gx-1">
+                <div class="col">
+                    <button class="btn btn-primary">編輯</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger">刪除</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+</script> -->
+<script src="/productCompent.js"></script>
+
+
 <script>
+
     myCompnent = {
         data() {
             return {
@@ -257,20 +252,20 @@
         template: `<button type="button" @click="add">{{count}}</button>`
     }
 
-    myLinkCompnent={
-        props:["text","link"],        
-        template:`<a :href="link">{{text}}</a>`
+    myLinkCompnent = {
+        props: ["text", "link"],
+        template: `<a :href="link">{{text}}</a>`
     }
 
     let hello = Vue.createApp({
         data() {
             return {
-                allLink:[
-                    {link:"https:www.google.com",name:"連結一"},
-                    {link:"https:www.bing.com",name:"連結二"},
-                    {link:"https:www.yahoo.com",name:"連結三"},
-                    {link:"https:www.momo.com",name:"連結四"},
-                    {link:"https:www.tibame.com",name:"連結五"},
+                allLink: [
+                    { link: "https:www.google.com", name: "連結一" },
+                    { link: "https:www.bing.com", name: "連結二" },
+                    { link: "https:www.yahoo.com", name: "連結三" },
+                    { link: "https:www.momo.com", name: "連結四" },
+                    { link: "https:www.tibame.com", name: "連結五" },
                 ],
                 currentPage: 1,
                 isSwitch: true,
@@ -349,9 +344,17 @@
         components: {
             paginate: VuejsPaginateNext,
             myCompnent,
-            myLinkCompnent
+            myLinkCompnent,
+            myProductCompnent
         },
         methods: {
+            godKnows(id,name){
+                console.log("朕知道了");
+                if (confirm(`您確定要刪除:${name}嗎?`)) {
+                    this.products = this.products.filter(x => x.id != id);
+                }
+
+            },
             switchPage(page) {
                 this.currentPage = page;
             },
